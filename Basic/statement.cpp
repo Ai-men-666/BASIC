@@ -73,7 +73,7 @@ IfStatement::~IfStatement(){
 InputStatement::InputStatement(std::string varName) : varName(varName){}
 
 void InputStatement::execute(EvalState &state, Program &program) {
- std::string input;
+ /*std::string input;
  std::cin >> input;
  TokenScanner scanner;
  scanner.ignoreWhitespace();
@@ -97,7 +97,23 @@ void InputStatement::execute(EvalState &state, Program &program) {
  scanner2.setInput(input);
  Expression *exp = parseExp(scanner2);
  int value = exp->eval(state);
- state.setValue(varName, value);
+ state.setValue(varName, value);*/
+ bool correctInput = false;
+ std::string input;
+ while(!correctInput) {
+  correctInput = true;
+  std::cout << "? ";
+  std::getline(std::cin,input);
+  for(int i = 0;i < input.length();i++) {
+   if(input[i] > '9' || input[i] < '0') {
+    correctInput = false;
+    std::cout << "INVALID NUMBER" << '\n';
+    break;
+   }
+  }
+ }
+ int value = stringToInteger(input);
+ state.setValue(varName,value);
 }
 
 InputStatement::~InputStatement(){}
