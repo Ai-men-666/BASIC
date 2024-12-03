@@ -15,7 +15,7 @@
 Program::Program() = default;
 
 Program::~Program() {
-    /*std::cout << "delete" << '\n';*/
+    /*std::cout << "delete program" << '\n';*/
     for(auto it = parsedStatement.begin();it != parsedStatement.end();it++) {
         if(it->second != NULL) {
             delete it->second;

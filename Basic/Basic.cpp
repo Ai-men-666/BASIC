@@ -76,6 +76,7 @@ void processLine(std::string line, Program &program, EvalState &state) {
         program.quit(&scanner);
         return;
     }
+    Statement *stmt;
     try {
         int lineNumber = 0;
         if(firstType == NUMBER) {
@@ -91,9 +92,10 @@ void processLine(std::string line, Program &program, EvalState &state) {
         if (order == "LET") {
             Expression *exp = parseExp(scanner);
             std::string name = scanner.nextToken();
-            Statement *stmt = new LetStatement(name,exp);
+            stmt = new LetStatement(name,exp);
             if(firstType != NUMBER) {
                 stmt->execute(state,program);
+                delete stmt;
             }else {
                 program.setParsedStatement(lineNumber,stmt);
             }
@@ -101,9 +103,10 @@ void processLine(std::string line, Program &program, EvalState &state) {
 
         if(order == "PRINT") {
             Expression *exp = parseExp(scanner);
-            Statement *stmt = new PrintStatement(exp);
+            stmt = new PrintStatement(exp);
             if(firstType != NUMBER) {
                 stmt->execute(state,program);
+                delete stmt;
             }else {
                 program.setParsedStatement(lineNumber,stmt);
             }
@@ -111,9 +114,10 @@ void processLine(std::string line, Program &program, EvalState &state) {
 
         if (order == "INPUT") {
             order = scanner.nextToken();
-            Statement *stmt = new InputStatement(order);
+            stmt = new InputStatement(order);
             if(firstType != NUMBER) {
                 stmt->execute(state,program);
+                delete stmt;
             }else {
                 program.setParsedStatement(lineNumber,stmt);
             }
@@ -123,7 +127,7 @@ void processLine(std::string line, Program &program, EvalState &state) {
         }
         if(order == "GOTO") {
             int targetLine = stringToInteger(scanner.nextToken());
-            Statement* stmt = new GotoStatement(targetLine);
+            stmt = new GotoStatement(targetLine);
             program.setParsedStatement(lineNumber,stmt);
         }
         if(order == "IF") {
@@ -149,11 +153,11 @@ void processLine(std::string line, Program &program, EvalState &state) {
             scanner2.setInput(condition2);
             Expression* condition1Exp = parseExp(scanner1);
             Expression* condition2Exp = parseExp(scanner2);
-            Statement* stmt = new IfStatement(condition1Exp,op,condition2Exp,stringToInteger(tmp));
+            stmt = new IfStatement(condition1Exp,op,condition2Exp,stringToInteger(tmp));
             program.setParsedStatement(lineNumber,stmt);
         }
         if(order == "REM") {
-            Statement *stmt = nullptr;
+            stmt = nullptr;
             if(firstType != NUMBER) {
                 stmt->execute(state,program);
             }else {
@@ -161,15 +165,17 @@ void processLine(std::string line, Program &program, EvalState &state) {
             }
         }
         if(order == "END") {
-            Statement *stmt = new EndStatement();
+            stmt = new EndStatement();
             if(firstType != NUMBER) {
                 stmt->execute(state,program);
+                delete stmt;
             }else {
                 program.setParsedStatement(lineNumber,stmt);
             }
         }
     }catch (ErrorException e) {
         std::cout << e.getMessage() << '\n';
+        delete stmt;
     }
     return;
     //todo

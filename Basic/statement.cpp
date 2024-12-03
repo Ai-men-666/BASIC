@@ -38,6 +38,7 @@ void LetStatement:: execute(EvalState &state, Program &program) {
 }
 
 LetStatement::~LetStatement(){
+ /*std::cout << "delete Let" << '\n';*/
   delete exp;
 }
 
