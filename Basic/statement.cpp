@@ -104,7 +104,10 @@ void InputStatement::execute(EvalState &state, Program &program) {
   correctInput = true;
   std::cout << "? ";
   std::getline(std::cin,input);
-  for(int i = 0;i < input.length();i++) {
+  if((input[0] > '9' || input[0] < '0') && input[0] != '-') {
+   correctInput = false;
+  }
+  for(int i = 1;i < input.length();i++) {
    if(input[i] > '9' || input[i] < '0') {
     correctInput = false;
     std::cout << "INVALID NUMBER" << '\n';
