@@ -102,7 +102,7 @@ void InputStatement::execute(EvalState &state, Program &program) {
  std::string input;
  while(!correctInput) {
   correctInput = true;
-  std::cout << "? ";
+  std::cout << " ? ";
   std::getline(std::cin,input);
   if((input[0] > '9' || input[0] < '0') && input[0] != '-') {
    correctInput = false;
