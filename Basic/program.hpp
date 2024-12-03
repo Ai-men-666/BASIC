@@ -139,7 +139,7 @@ public:
  */
 
     int getNextLineNumber(int lineNumber);
-    void quit();
+    void quit(TokenScanner *scanner);
     void run(EvalState &state);
     void list();
     void print(TokenScanner scanner,EvalState &state);

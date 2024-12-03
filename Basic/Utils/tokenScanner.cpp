@@ -26,6 +26,7 @@ TokenScanner::TokenScanner(std::istream &infile) {
 }
 
 TokenScanner::~TokenScanner() {
+    /*std::cout << "delete scanner" << '\n';*/
     if(isp != nullptr) {
         delete isp;
     }

@@ -73,7 +73,7 @@ void processLine(std::string line, Program &program, EvalState &state) {
         return;
     }
     if(order == "QUIT") {
-        program.quit();
+        program.quit(&scanner);
         return;
     }
     try {
@@ -81,10 +81,10 @@ void processLine(std::string line, Program &program, EvalState &state) {
         if(firstType == NUMBER) {
             lineNumber = stringToInteger(order);
             program.addSourceLine(stringToInteger(order),line);
-            order = scanner.nextToken();
             if(!scanner.hasMoreTokens()) {
                 program.removeSourceLine(lineNumber);
             }
+            order = scanner.nextToken();
         }else {
             program.addSourceLine(line);
         }

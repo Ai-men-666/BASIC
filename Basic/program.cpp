@@ -15,7 +15,7 @@
 Program::Program() = default;
 
 Program::~Program() {
-    /*std::cout << "delete";*/
+    /*std::cout << "delete" << '\n';*/
     for(auto it = parsedStatement.begin();it != parsedStatement.end();it++) {
         if(it->second != NULL) {
             delete it->second;
@@ -118,8 +118,9 @@ int Program::getNextLineNumber(int lineNumber) {
     //todo
 }
 
-void Program::quit() {
+void Program::quit(TokenScanner *scanner) {
     this->~Program();
+    scanner->~TokenScanner();
     exit(0);
 }
 
