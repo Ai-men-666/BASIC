@@ -82,6 +82,9 @@ void processLine(std::string line, Program &program, EvalState &state) {
             lineNumber = stringToInteger(order);
             program.addSourceLine(stringToInteger(order),line);
             order = scanner.nextToken();
+            if(!scanner.hasMoreTokens()) {
+                program.removeSourceLine(lineNumber);
+            }
         }else {
             program.addSourceLine(line);
         }
@@ -168,6 +171,7 @@ void processLine(std::string line, Program &program, EvalState &state) {
     }catch (ErrorException e) {
         std::cout << e.getMessage() << '\n';
     }
+    return;
     //todo
 }
 

@@ -15,9 +15,15 @@
 Program::Program() = default;
 
 Program::~Program() {
+    /*std::cout << "delete";*/
     for(auto it = parsedStatement.begin();it != parsedStatement.end();it++) {
-        delete it->second;
+        if(it->second != NULL) {
+            delete it->second;
+        }
     }
+    parsedStatement.clear();
+    line.clear();
+    hasLineNumber.clear();
 }
 
 void Program::clear(EvalState &state) {
@@ -113,6 +119,7 @@ int Program::getNextLineNumber(int lineNumber) {
 }
 
 void Program::quit() {
+    this->~Program();
     exit(0);
 }
 
